@@ -7,56 +7,77 @@
   background-color: var(--color-bg, #F5F1E8);
 }
 
-/* ─── 2-Column Dashboard Grid ─────────────────────────────────────── */
-.dashboard-grid {
+/* ─── Main Content Shell ──────────────────────────────────────────── */
+.app-main-content {
+  padding-top: 108px;
+  padding-bottom: 72px;
+  min-height: calc(100vh - 120px);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* ─── Unified Content Container (Aligns all components) ───────────── */
+.content-container {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 40px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 32px;
-  width: 100%;
-  margin: 0 auto;
+  gap: 28px;
+  box-sizing: border-box;
 }
 
-@media (min-width: 1024px) {
-  .dashboard-grid {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 40px;
+@media (max-width: 768px) {
+  .content-container {
+    padding: 0 20px;
+    gap: 20px;
   }
 }
 
-.dashboard-col-left {
-  width: 100%;
+/* ─── Big Welcome Banner ──────────────────────────────────────────── */
+.welcome-banner {
+  padding: 0;
+  margin: 0;
+  text-align: left;
   display: flex;
-  justify-content: flex-start;
+  flex-direction: column;
+  gap: 8px;
 }
 
-@media (min-width: 1024px) {
-  .dashboard-col-left {
-    flex: 1;
-    max-width: 510px;
-  }
+.welcome-headline {
+  font-family: var(--font-display, 'Cormorant Garamond', 'Playfair Display', Georgia, serif);
+  font-size: clamp(2.4rem, 5.5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  color: #16352F;
+  margin: 0;
 }
 
-.dashboard-col-right {
+.welcome-place-name {
+  color: #C58B38;
+  font-style: italic;
+  font-weight: 600;
+  border-bottom: 2px solid rgba(197, 139, 56, 0.35);
+  padding-bottom: 2px;
+}
+
+.welcome-subline {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1rem;
+  color: #5B6B63;
+  margin: 0;
+  max-width: 680px;
+  line-height: 1.45;
+}
+
+/* ─── Editorial Content Flow (Stacked Vertical Hierarchy) ─────────── */
+.dashboard-content-flow {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 28px;
-  justify-content: flex-start;
-  padding-top: 32px; /* Aligns with SolarCard under city pills */
-}
-
-@media (min-width: 1024px) {
-  .dashboard-col-right {
-    flex: 1;
-    max-width: 540px;
-  }
-}
-
-@media (max-width: 768px) {
-  .dashboard-col-right {
-    padding-top: 0;
-  }
+  align-items: stretch;
 }

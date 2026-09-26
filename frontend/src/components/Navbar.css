@@ -1,10 +1,5 @@
 /* ===================================================================
-   Nudge-style Floating Pill Navbar
-   Matches reference screenshot:
-   - Soft beige/cream capsule container
-   - Left bold brand mark with circular emblem
-   - Right-aligned clean menu items with downward chevrons
-   - Solid charcoal/black "Contact" capsule button
+   WildCanvas Floating Pill Navbar — Leaf Icon + Search Bar
    =================================================================== */
 
 .nudge-nav-wrapper {
@@ -18,7 +13,7 @@
   justify-content: center;
   padding: 0 20px;
   box-sizing: border-box;
-  pointer-events: none; /* Allows clicks around the pill */
+  pointer-events: none;
 }
 
 /* ─── Main Pill Container ─────────────────────────────────────────── */
@@ -30,7 +25,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 10px 8px 24px;
+  padding: 8px 10px 8px 22px;
   background-color: #ECE7DE;
   border-radius: 9999px;
   box-shadow:
@@ -38,24 +33,34 @@
     0 2px 6px -1px rgba(0, 0, 0, 0.03);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   box-sizing: border-box;
+  gap: 16px;
 }
 
-/* ─── Brand Logo (Left) ───────────────────────────────────────────── */
+/* ─── Brand Logo with Leaf Icon ───────────────────────────────────── */
 .nudge-brand {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 10px;
   text-decoration: none;
   color: #191B17;
   cursor: pointer;
   user-select: none;
+  flex-shrink: 0;
 }
 
-.nudge-logo-mark {
+.wild-leaf-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #191B17;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(40, 89, 67, 0.12);
+  transition: transform 0.25s ease;
+}
+
+.nudge-brand:hover .wild-leaf-icon {
+  transform: rotate(-10deg) scale(1.08);
 }
 
 .nudge-brand-text {
@@ -67,265 +72,140 @@
   line-height: 1;
 }
 
-/* ─── Nav Links Group (Right) ─────────────────────────────────────── */
-.nudge-nav-links {
-  display: none;
-  align-items: center;
-  gap: 32px;
-}
-
-@media (min-width: 768px) {
-  .nudge-nav-links {
-    display: flex;
-  }
-}
-
-.nudge-nav-item {
+/* ─── Search Bar (Replacing Links) ────────────────────────────────── */
+.wild-nav-search {
   position: relative;
   display: flex;
   align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 440px;
 }
 
-/* Nav links & dropdown buttons */
-.nudge-nav-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #1F221E;
-  text-decoration: none;
+.wild-nav-search-icon {
+  position: absolute;
+  left: 14px;
+  color: #747D73;
+  pointer-events: none;
+  transition: color 0.18s ease;
+}
+
+.wild-nav-search:focus-within .wild-nav-search-icon {
+  color: #16352F;
+}
+
+.wild-nav-search-input {
+  width: 100%;
+  height: 42px;
+  padding: 0 40px 0 38px;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 9999px;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.9rem;
+  color: #191B17;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.wild-nav-search-input::placeholder {
+  color: #8C9387;
+  font-size: 0.88rem;
+}
+
+.wild-nav-search-input:focus {
+  border-color: #16352F;
+  box-shadow: 0 0 0 3px rgba(22, 53, 47, 0.08);
+}
+
+.wild-nav-search-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.wild-nav-search-clear {
+  position: absolute;
+  right: 92px;
   background: none;
   border: none;
-  padding: 6px 4px;
+  color: #8C9387;
+  font-size: 0.85rem;
   cursor: pointer;
-  transition: color 0.18s ease, opacity 0.18s ease;
-  outline: none;
-}
-
-.nudge-nav-link:hover {
-  color: #000000;
-  opacity: 0.8;
-}
-
-.nudge-nav-link:focus-visible {
-  outline: 2px solid #191B17;
-  border-radius: 4px;
-}
-
-/* Chevron icon */
-.nudge-chevron {
-  transition: transform 0.22s ease;
-  color: #383B34;
-  margin-top: 1px;
-}
-
-.nudge-nav-item--open .nudge-chevron,
-.nudge-nav-item:hover .nudge-chevron {
-  transform: rotate(180deg);
-}
-
-/* ─── Dropdown Menu ──────────────────────────────────────────────── */
-.nudge-dropdown-menu {
-  position: absolute;
-  top: calc(100% + 14px);
-  right: -20px;
-  min-width: 250px;
-  background-color: #F8F5EE;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 18px;
-  padding: 8px;
-  box-shadow:
-    0 16px 36px -8px rgba(0, 0, 0, 0.12),
-    0 4px 12px rgba(0, 0, 0, 0.04);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(6px);
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-  pointer-events: none;
-  z-index: 1001;
-}
-
-.nudge-dropdown-menu--visible,
-.nudge-nav-item:hover .nudge-dropdown-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.nudge-dropdown-item {
+  padding: 4px;
   display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 10px 14px;
-  border-radius: 12px;
-  text-decoration: none;
-  color: #1F221E;
-  transition: background-color 0.18s ease;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  line-height: 1;
 }
 
-.nudge-dropdown-item:hover {
-  background-color: #ECE7DE;
-}
-
-.nudge-dropdown-item-title {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 600;
+.wild-nav-search-clear:hover {
   color: #191B17;
 }
 
-.nudge-dropdown-item-desc {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.76rem;
-  color: #6C7066;
-  line-height: 1.35;
-}
-
-/* ─── Contact Action Button ──────────────────────────────────────── */
-.nudge-btn-contact {
+.wild-nav-search-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 13px 26px;
+  padding: 0 20px;
+  height: 42px;
   border-radius: 9999px;
   background-color: #1F221E;
   color: #FFFFFF;
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 0.92rem;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.88rem;
   font-weight: 500;
-  letter-spacing: -0.01em;
   border: none;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
   white-space: nowrap;
+  transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
-.nudge-btn-contact:hover {
+.wild-nav-search-btn:hover {
   background-color: #0E100D;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.nudge-btn-contact:active {
+.wild-nav-search-btn:active {
   transform: translateY(0);
 }
 
-.nudge-btn-contact:focus-visible {
-  outline: 2px solid #191B17;
-  outline-offset: 2px;
-}
-
-/* ─── Mobile Hamburger ────────────────────────────────────────────── */
-.nudge-mobile-burger {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  width: 44px;
-  height: 44px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-@media (min-width: 768px) {
-  .nudge-mobile-burger {
-    display: none;
+/* ─── Mobile Responsiveness ──────────────────────────────────────── */
+@media (max-width: 640px) {
+  .nudge-navbar {
+    height: 58px;
+    padding: 6px 8px 6px 16px;
   }
-}
 
-.nudge-mobile-burger span {
-  display: block;
-  width: 20px;
-  height: 2px;
-  background-color: #191B17;
-  border-radius: 2px;
-  transition: transform 0.22s ease, opacity 0.22s ease;
-}
-
-.nudge-mobile-burger--active span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
-}
-
-.nudge-mobile-burger--active span:nth-child(2) {
-  opacity: 0;
-}
-
-.nudge-mobile-burger--active span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
-}
-
-/* ─── Mobile Drawer Panel ────────────────────────────────────────── */
-.nudge-mobile-panel {
-  pointer-events: auto;
-  position: absolute;
-  top: 74px;
-  left: 20px;
-  right: 20px;
-  background-color: #ECE7DE;
-  border-radius: 24px;
-  padding: 20px;
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  animation: nudgeFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@media (min-width: 768px) {
-  .nudge-mobile-panel {
-    display: none;
+  .nudge-brand-text {
+    font-size: 1.15rem;
   }
-}
 
-@keyframes nudgeFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
+  .wild-nav-search {
+    max-width: 220px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .wild-nav-search-input {
+    height: 38px;
+    font-size: 0.82rem;
+    padding-left: 32px;
+    padding-right: 28px;
   }
-}
 
-.nudge-mobile-item {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+  .wild-nav-search-icon {
+    left: 10px;
+    width: 14px;
+    height: 14px;
+  }
 
-.nudge-mobile-link {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #191B17;
-  text-decoration: none;
-  padding: 6px 0;
-}
+  .wild-nav-search-clear {
+    right: 68px;
+  }
 
-.nudge-mobile-subitems {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding-left: 12px;
-  border-left: 2px solid rgba(0, 0, 0, 0.08);
-}
-
-.nudge-mobile-sublink {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.88rem;
-  color: #4C5046;
-  text-decoration: none;
-  padding: 4px 0;
-}
-
-.nudge-btn-contact--mobile {
-  width: 100%;
-  margin-top: 8px;
+  .wild-nav-search-btn {
+    height: 38px;
+    padding: 0 14px;
+    font-size: 0.8rem;
+  }
 }

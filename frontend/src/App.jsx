@@ -25,24 +25,55 @@ export default function App() {
 
   const [topSpecies, setTopSpecies] = useState([])
 
+  // Extract place name (e.g. "Tokyo", "Chennai", "London", etc.)
+  const placeName = currentLocation?.name?.split(',')?.[0]?.trim() || 'Your Area'
+
+  // Handle city search from the Navbar search bar
+  const handleCitySearch = async (searchTerm) => {
+    try {
+      const res = await fetch(
+        `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(searchTerm)}&count=1&language=en&format=json`
+      ).then((r) => r.json())
+
+      if (res.results && res.results.length > 0) {
+        const item = res.results[0]
+        setCurrentLocation({
+          name: `${item.name}, ${item.country || ''}`,
+          lat: parseFloat(item.latitude.toFixed(4)),
+          lng: parseFloat(item.longitude.toFixed(4)),
+        })
+      }
+    } catch {
+      // Graceful fallback
+    }
+  }
+
   return (
     <div className="app-shell">
-      <Navbar />
+      <Navbar onSearch={handleCitySearch} />
 
-      <main className="container" style={{ paddingTop: 110, paddingBottom: 64, minHeight: 'calc(100vh - 120px)' }}>
-        {/* Responsive 2-column layout: Left (SolarCard), Right (SpeciesCard + ArtworkCard) */}
-        <section className="dashboard-grid">
-          {/* Left Column: Solar & Weather Card */}
-          <div className="dashboard-col-left">
+      <main className="app-main-content">
+        <div className="content-container">
+          {/* Big Welcome Banner */}
+          <div className="welcome-banner">
+            <h1 className="welcome-headline">
+              Welcome to <span className="welcome-place-name">{placeName}</span>
+            </h1>
+            <p className="welcome-subline">
+              Explore regional wildlife, museum art connections, and the solar light of the day.
+            </p>
+          </div>
+
+          {/* Main Flow: Wide Weather Card -> Species Card Below -> Artwork Card Below */}
+          <section className="dashboard-content-flow">
+            {/* 1. Wide Weather & Solar Card (wider than longer) */}
             <SolarCard
               currentLocation={currentLocation}
               onLocationChange={setCurrentLocation}
               onDataSync={setSolarAndWeather}
             />
-          </div>
 
-          {/* Right Column: SpeciesCard & ArtworkCard */}
-          <div className="dashboard-col-right">
+            {/* 2. Top 3 Species Card directly below Weather Card */}
             <SpeciesCard
               location={currentLocation}
               weather={solarAndWeather.weather}
@@ -50,15 +81,15 @@ export default function App() {
               onSpeciesLoaded={setTopSpecies}
             />
 
-            {/* Art Institute of Chicago Component (Below Species Component) */}
+            {/* 3. Art Institute of Chicago Component below Species Card */}
             <ArtworkCard
               species={topSpecies}
               location={currentLocation}
               solarInfo={solarAndWeather.solarInfo}
               weather={solarAndWeather.weather}
             />
-          </div>
-        </section>
+          </section>
+        </div>
       </main>
 
       <Footer />

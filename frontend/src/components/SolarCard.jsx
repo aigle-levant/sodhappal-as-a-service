@@ -128,12 +128,27 @@ export default function SolarCard({
       return
     }
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        handleSelectLocation({
-          name: 'My Current Location',
-          lat: parseFloat(pos.coords.latitude.toFixed(4)),
-          lng: parseFloat(pos.coords.longitude.toFixed(4)),
-        })
+      async (pos) => {
+        const lat = parseFloat(pos.coords.latitude.toFixed(4))
+        const lng = parseFloat(pos.coords.longitude.toFixed(4))
+        try {
+          const geoRes = await fetch(
+            `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`
+          ).then((r) => r.json())
+          const city = geoRes.city || geoRes.locality || geoRes.principalSubdivision || 'Local Area'
+          const country = geoRes.countryName ? `, ${geoRes.countryName}` : ''
+          handleSelectLocation({
+            name: `${city}${country}`,
+            lat,
+            lng,
+          })
+        } catch {
+          handleSelectLocation({
+            name: 'Local Area',
+            lat,
+            lng,
+          })
+        }
       },
       () => {
         alert('Could not access your location. Please check browser permissions.')
@@ -296,114 +311,121 @@ export default function SolarCard({
           </div>
         </div>
 
-        {/* ─── Center: Animated Solar Trajectory Arc ─── */}
-        <div className="solar-arc-wrapper">
-          <svg
-            className="solar-arc-svg"
-            viewBox="0 0 300 120"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            {/* Horizon dashed base line */}
-            <line
-              x1="30"
-              y1="102"
-              x2="270"
-              y2="102"
-              stroke="rgba(255, 255, 255, 0.25)"
-              strokeWidth="2"
-              strokeDasharray="4 4"
-            />
+        {/* ─── Wide Content Grid: Left (Sunrise/Sunset & Stats), Right (Arc Trajectory) ─── */}
+        <div className="solar-card-content-grid">
+          {/* Left Column: Sunrise & Sunset Times + Ephemeris Stats */}
+          <div className="solar-content-left">
+            <div className="solar-times-grid">
+              {/* Sunrise Card */}
+              <div className="solar-time-block solar-time-block--sunrise">
+                <div className="solar-time-icon-wrap">
+                  <span className="solar-time-icon">🌅</span>
+                </div>
+                <div className="solar-time-details">
+                  <span className="solar-time-title">Sunrise happens at</span>
+                  <span className="solar-time-value">{formattedTimes.sunrise}</span>
+                  <span className="solar-time-sub">Dawn starts {formattedTimes.dawn}</span>
+                </div>
+              </div>
 
-            {/* Semicircle Trajectory Path */}
-            <path
-              d="M 75 100 A 75 75 0 0 1 225 100"
-              stroke="url(#solarArcGradient)"
-              strokeWidth="3"
-              strokeLinecap="round"
-            />
-
-            {/* Gradient definition - cohesive warm muted gold */}
-            <defs>
-              <linearGradient id="solarArcGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#C59B58" stopOpacity="0.6" />
-                <stop offset="50%" stopColor="#DFB978" stopOpacity="0.95" />
-                <stop offset="100%" stopColor="#C59B58" stopOpacity="0.6" />
-              </linearGradient>
-            </defs>
-
-            {/* Glowing moving Sun marker */}
-            <g transform={`translate(${arcPosition.x}, ${arcPosition.y})`}>
-              {/* Outer pulsing solar halo */}
-              <circle r="12" fill="rgba(223, 185, 120, 0.18)" className="solar-pulse-halo" />
-              {/* Mid glow */}
-              <circle r="8" fill="rgba(217, 154, 61, 0.45)" />
-              {/* Sun Core */}
-              <circle r="5" fill="#FBF9F3" stroke="#C59B58" strokeWidth="1.5" />
-            </g>
-          </svg>
-
-          {/* Current Solar Phase Badge */}
-          <div className="solar-phase-status">
-            <span className="solar-phase-dot" />
-            <span className="solar-phase-text">
-              {formattedTimes.isNight
-                ? 'Night Phase · Awaiting Dawn'
-                : formattedTimes.sunProgressPercent >= 75
-                ? 'Golden Hour Approaching'
-                : 'Daylight Phase Active'}
-            </span>
-          </div>
-        </div>
-
-        {/* ─── Bottom Main Display: Sunrise & Sunset Times ─── */}
-        <div className="solar-times-grid">
-          {/* Sunrise Card */}
-          <div className="solar-time-block solar-time-block--sunrise">
-            <div className="solar-time-icon-wrap">
-              <span className="solar-time-icon">🌅</span>
+              {/* Sunset Card */}
+              <div className="solar-time-block solar-time-block--sunset">
+                <div className="solar-time-icon-wrap">
+                  <span className="solar-time-icon">🌇</span>
+                </div>
+                <div className="solar-time-details">
+                  <span className="solar-time-title">Sunset happens at</span>
+                  <span className="solar-time-value">{formattedTimes.sunset}</span>
+                  <span className="solar-time-sub">Dusk ends {formattedTimes.dusk}</span>
+                </div>
+              </div>
             </div>
-            <div className="solar-time-details">
-              <span className="solar-time-title">Sunrise happens at</span>
-              <span className="solar-time-value">{formattedTimes.sunrise}</span>
-              <span className="solar-time-sub">Dawn starts {formattedTimes.dawn}</span>
+
+            {/* Footer Stats: Daylight & API Credit */}
+            <div className="solar-card-footer">
+              <div className="solar-stat-item">
+                <span className="solar-stat-label">Total Daylight</span>
+                <span className="solar-stat-value">{formattedTimes.dayLength}</span>
+              </div>
+              <div className="solar-stat-divider" />
+              <div className="solar-stat-item">
+                <span className="solar-stat-label">Sun Trajectory</span>
+                <span className="solar-stat-value">{formattedTimes.sunProgressPercent}% elapsed</span>
+              </div>
+              <div className="solar-stat-divider" />
+              <div className="solar-stat-item">
+                <a
+                  href="https://sunrise-sunset.org/api"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="solar-api-credit"
+                >
+                  Powered by sunrise-sunset.org ↗
+                </a>
+              </div>
             </div>
           </div>
 
-          {/* Sunset Card */}
-          <div className="solar-time-block solar-time-block--sunset">
-            <div className="solar-time-icon-wrap">
-              <span className="solar-time-icon">🌇</span>
-            </div>
-            <div className="solar-time-details">
-              <span className="solar-time-title">Sunset happens at</span>
-              <span className="solar-time-value">{formattedTimes.sunset}</span>
-              <span className="solar-time-sub">Dusk ends {formattedTimes.dusk}</span>
-            </div>
-          </div>
-        </div>
+          {/* Right Column: Animated Solar Trajectory Arc & Phase Badge */}
+          <div className="solar-content-right">
+            <div className="solar-arc-wrapper">
+              <svg
+                className="solar-arc-svg"
+                viewBox="0 0 300 120"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                {/* Horizon dashed base line */}
+                <line
+                  x1="30"
+                  y1="102"
+                  x2="270"
+                  y2="102"
+                  stroke="rgba(255, 255, 255, 0.25)"
+                  strokeWidth="2"
+                  strokeDasharray="4 4"
+                />
 
-        {/* ─── Footer Stats: Day Length & Source ─── */}
-        <div className="solar-card-footer">
-          <div className="solar-stat-item">
-            <span className="solar-stat-label">Total Daylight</span>
-            <span className="solar-stat-value">{formattedTimes.dayLength}</span>
-          </div>
-          <div className="solar-stat-divider" />
-          <div className="solar-stat-item">
-            <span className="solar-stat-label">Sun Trajectory</span>
-            <span className="solar-stat-value">{formattedTimes.sunProgressPercent}% elapsed</span>
-          </div>
-          <div className="solar-stat-divider" />
-          <div className="solar-stat-item">
-            <a
-              href="https://sunrise-sunset.org/api"
-              target="_blank"
-              rel="noreferrer"
-              className="solar-api-credit"
-            >
-              Powered by sunrise-sunset.org ↗
-            </a>
+                {/* Semicircle Trajectory Path */}
+                <path
+                  d="M 75 100 A 75 75 0 0 1 225 100"
+                  stroke="url(#solarArcGradient)"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+
+                {/* Gradient definition - cohesive warm muted gold */}
+                <defs>
+                  <linearGradient id="solarArcGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#C59B58" stopOpacity="0.6" />
+                    <stop offset="50%" stopColor="#DFB978" stopOpacity="0.95" />
+                    <stop offset="100%" stopColor="#C59B58" stopOpacity="0.6" />
+                  </linearGradient>
+                </defs>
+
+                {/* Glowing moving Sun marker */}
+                <g transform={`translate(${arcPosition.x}, ${arcPosition.y})`}>
+                  {/* Outer pulsing solar halo */}
+                  <circle r="12" fill="rgba(223, 185, 120, 0.18)" className="solar-pulse-halo" />
+                  {/* Mid glow */}
+                  <circle r="8" fill="rgba(217, 154, 61, 0.45)" />
+                  {/* Sun Core */}
+                  <circle r="5" fill="#FBF9F3" stroke="#C59B58" strokeWidth="1.5" />
+                </g>
+              </svg>
+
+              {/* Current Solar Phase Badge */}
+              <div className="solar-phase-status">
+                <span className="solar-phase-dot" />
+                <span className="solar-phase-text">
+                  {formattedTimes.isNight
+                    ? 'Night Phase · Awaiting Dawn'
+                    : formattedTimes.sunProgressPercent >= 75
+                    ? 'Golden Hour Approaching'
+                    : 'Daylight Phase Active'}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
