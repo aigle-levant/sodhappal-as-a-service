@@ -8,6 +8,8 @@
 import { useState } from 'react'
 import { api1, api2, api3, api4 } from './services/api'
 import { useApi } from './hooks/useApi'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 import './App.css'
 
 // ─── Status dot ──────────────────────────────────────────────────────────────
@@ -58,19 +60,10 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      {/* Header */}
-      <header className="app-header">
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div className="logo-mark" />
-            <span style={{ fontWeight: 700, fontSize: '1.1rem', letterSpacing: '-0.02em' }}>Hackathon Starter</span>
-          </div>
-          <span className="badge badge-accent">⚡ Ready</span>
-        </div>
-      </header>
+      <Navbar />
 
       {/* Hero */}
-      <main className="container" style={{ paddingTop: 64, paddingBottom: 64 }}>
+      <main className="container" style={{ paddingTop: 140, paddingBottom: 64 }}>
         <section style={{ textAlign: 'center', marginBottom: 64 }}>
           <h1 className="hero-title fade-in">
             Build fast. <span className="gradient-text">Ship faster.</span>
@@ -118,6 +111,8 @@ export default function App() {
           </div>
         </section>
       </main>
+
+      <Footer />
     </div>
   )
 }

@@ -1,0 +1,331 @@
+/* ===================================================================
+   Nudge-style Floating Pill Navbar
+   Matches reference screenshot:
+   - Soft beige/cream capsule container
+   - Left bold brand mark with circular emblem
+   - Right-aligned clean menu items with downward chevrons
+   - Solid charcoal/black "Contact" capsule button
+   =================================================================== */
+
+.nudge-nav-wrapper {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  pointer-events: none; /* Allows clicks around the pill */
+}
+
+/* ─── Main Pill Container ─────────────────────────────────────────── */
+.nudge-navbar {
+  pointer-events: auto;
+  width: 100%;
+  max-width: 1140px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px 8px 24px;
+  background-color: #ECE7DE;
+  border-radius: 9999px;
+  box-shadow:
+    0 10px 30px -10px rgba(0, 0, 0, 0.08),
+    0 2px 6px -1px rgba(0, 0, 0, 0.03);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-sizing: border-box;
+}
+
+/* ─── Brand Logo (Left) ───────────────────────────────────────────── */
+.nudge-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+  color: #191B17;
+  cursor: pointer;
+  user-select: none;
+}
+
+.nudge-logo-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #191B17;
+}
+
+.nudge-brand-text {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #191B17;
+  line-height: 1;
+}
+
+/* ─── Nav Links Group (Right) ─────────────────────────────────────── */
+.nudge-nav-links {
+  display: none;
+  align-items: center;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .nudge-nav-links {
+    display: flex;
+  }
+}
+
+.nudge-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Nav links & dropdown buttons */
+.nudge-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1F221E;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 6px 4px;
+  cursor: pointer;
+  transition: color 0.18s ease, opacity 0.18s ease;
+  outline: none;
+}
+
+.nudge-nav-link:hover {
+  color: #000000;
+  opacity: 0.8;
+}
+
+.nudge-nav-link:focus-visible {
+  outline: 2px solid #191B17;
+  border-radius: 4px;
+}
+
+/* Chevron icon */
+.nudge-chevron {
+  transition: transform 0.22s ease;
+  color: #383B34;
+  margin-top: 1px;
+}
+
+.nudge-nav-item--open .nudge-chevron,
+.nudge-nav-item:hover .nudge-chevron {
+  transform: rotate(180deg);
+}
+
+/* ─── Dropdown Menu ──────────────────────────────────────────────── */
+.nudge-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: -20px;
+  min-width: 250px;
+  background-color: #F8F5EE;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 18px;
+  padding: 8px;
+  box-shadow:
+    0 16px 36px -8px rgba(0, 0, 0, 0.12),
+    0 4px 12px rgba(0, 0, 0, 0.04);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+.nudge-dropdown-menu--visible,
+.nudge-nav-item:hover .nudge-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.nudge-dropdown-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #1F221E;
+  transition: background-color 0.18s ease;
+}
+
+.nudge-dropdown-item:hover {
+  background-color: #ECE7DE;
+}
+
+.nudge-dropdown-item-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #191B17;
+}
+
+.nudge-dropdown-item-desc {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.76rem;
+  color: #6C7066;
+  line-height: 1.35;
+}
+
+/* ─── Contact Action Button ──────────────────────────────────────── */
+.nudge-btn-contact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 26px;
+  border-radius: 9999px;
+  background-color: #1F221E;
+  color: #FFFFFF;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+
+.nudge-btn-contact:hover {
+  background-color: #0E100D;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.nudge-btn-contact:active {
+  transform: translateY(0);
+}
+
+.nudge-btn-contact:focus-visible {
+  outline: 2px solid #191B17;
+  outline-offset: 2px;
+}
+
+/* ─── Mobile Hamburger ────────────────────────────────────────────── */
+.nudge-mobile-burger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .nudge-mobile-burger {
+    display: none;
+  }
+}
+
+.nudge-mobile-burger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: #191B17;
+  border-radius: 2px;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.nudge-mobile-burger--active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nudge-mobile-burger--active span:nth-child(2) {
+  opacity: 0;
+}
+
+.nudge-mobile-burger--active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ─── Mobile Drawer Panel ────────────────────────────────────────── */
+.nudge-mobile-panel {
+  pointer-events: auto;
+  position: absolute;
+  top: 74px;
+  left: 20px;
+  right: 20px;
+  background-color: #ECE7DE;
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: nudgeFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (min-width: 768px) {
+  .nudge-mobile-panel {
+    display: none;
+  }
+}
+
+@keyframes nudgeFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nudge-mobile-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nudge-mobile-link {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #191B17;
+  text-decoration: none;
+  padding: 6px 0;
+}
+
+.nudge-mobile-subitems {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 12px;
+  border-left: 2px solid rgba(0, 0, 0, 0.08);
+}
+
+.nudge-mobile-sublink {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.88rem;
+  color: #4C5046;
+  text-decoration: none;
+  padding: 4px 0;
+}
+
+.nudge-btn-contact--mobile {
+  width: 100%;
+  margin-top: 8px;
+}
