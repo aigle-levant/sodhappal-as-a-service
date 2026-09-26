@@ -24,13 +24,23 @@ const WEATHER_CODES = {
   95: { label: 'Thunderstorm', icon: '⛈️' },
 }
 
-export default function SolarCard() {
-  const [selectedLocation, setSelectedLocation] = useState(PRESET_LOCATIONS[0])
+export default function SolarCard({
+  currentLocation,
+  onLocationChange,
+  onDataSync,
+}) {
+  const [internalLocation, setInternalLocation] = useState(PRESET_LOCATIONS[0])
+  const selectedLocation = currentLocation || internalLocation
+
+  const handleSelectLocation = (loc) => {
+    setInternalLocation(loc)
+    if (onLocationChange) onLocationChange(loc)
+  }
+
   const [sunData, setSunData] = useState(null)
   const [weatherData, setWeatherData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [customCity, setCustomCity] = useState('')
 
   // Fetch solar and weather data whenever selected location changes
   useEffect(() => {
@@ -119,7 +129,7 @@ export default function SolarCard() {
     }
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        setSelectedLocation({
+        handleSelectLocation({
           name: 'My Current Location',
           lat: parseFloat(pos.coords.latitude.toFixed(4)),
           lng: parseFloat(pos.coords.longitude.toFixed(4)),
@@ -198,6 +208,13 @@ export default function SolarCard() {
     }
   }, [sunData])
 
+  // Notify parent of solar & weather updates
+  useEffect(() => {
+    if (onDataSync && weatherData && formattedTimes) {
+      onDataSync({ weather: weatherData, solarInfo: formattedTimes })
+    }
+  }, [weatherData, formattedTimes, onDataSync])
+
   // Calculate arc coordinates for the glowing sun on a semicircle
   const arcPosition = useMemo(() => {
     // Semi-circle arc: angle from 180° (sunrise) to 0° (sunset)
@@ -223,7 +240,7 @@ export default function SolarCard() {
             className={`solar-pill-btn ${
               selectedLocation.name === loc.name ? 'solar-pill-btn--active' : ''
             }`}
-            onClick={() => setSelectedLocation(loc)}
+            onClick={() => handleSelectLocation(loc)}
           >
             {loc.name.split(',')[0]}
           </button>

@@ -4,24 +4,57 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: var(--color-bg, #F5F1E8);
 }
 
-.hero-title {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
+/* ─── 2-Column Dashboard Grid ─────────────────────────────────────── */
+.dashboard-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  margin: 0 auto;
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+@media (min-width: 1024px) {
+  .dashboard-grid {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 40px;
+  }
 }
 
-.api-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
+.dashboard-col-left {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+@media (min-width: 1024px) {
+  .dashboard-col-left {
+    flex: 1;
+    max-width: 510px;
+  }
+}
+
+.dashboard-col-right {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 32px; /* Aligns with SolarCard under city pills */
+}
+
+@media (min-width: 1024px) {
+  .dashboard-col-right {
+    flex: 1;
+    max-width: 540px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-col-right {
+    padding-top: 0;
+  }
 }

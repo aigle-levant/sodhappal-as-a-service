@@ -1,94 +1,48 @@
 import './Footer.css'
 
 export default function Footer({
-  showCta = true,
-  ctaTitle = "Let's talk",
-  ctaDesc = 'Contact us to explore how Nudge can strengthen engagement, adherence, and between-visit support.',
-  ctaBtnText = 'Get in touch',
-  companyName = 'Nudge Technologies LLC',
-  onCtaClick,
+  companyName = 'WildCanvas LLC',
 }) {
-  const handleCta = (e) => {
-    e.preventDefault()
-    if (onCtaClick) {
-      onCtaClick()
-    } else {
-      const contactEl = document.querySelector('#contact') || document.querySelector('#explore')
-      if (contactEl) {
-        contactEl.scrollIntoView({ behavior: 'smooth' })
-      }
-    }
-  }
-
   return (
-    <footer className="nudge-site-footer" role="contentinfo">
-      {/* Pre-footer Call To Action Section (matches getnudge.info) */}
-      {showCta && (
-        <section className="nudge-footer-cta-section">
-          <div className="nudge-footer-cta-container">
-            <h2 className="nudge-footer-cta-title">{ctaTitle}</h2>
-            <p className="nudge-footer-cta-desc">{ctaDesc}</p>
-            <a
-              href="/contact"
-              className="nudge-footer-cta-btn"
-              onClick={handleCta}
-            >
-              {ctaBtnText}
-            </a>
-          </div>
-        </section>
-      )}
-
-      {/* Main Footer with Signature Giant SVG Wordmark */}
-      <div className="nudge-footer-bottom-wrap">
-        <div className="nudge-footer-inner">
-          {/* Giant NUDGE Wordmark SVG exactly from getnudge.info */}
-          <div className="nudge-giant-logo-wrap">
-            <a href="/" className="nudge-giant-logo-link" aria-label="Nudge home">
+    <footer className="wild-site-footer" role="contentinfo">
+      {/* Main Footer with Signature Full-Width Architectural Wordmark */}
+      <div className="wild-footer-bottom-wrap">
+        <div className="wild-footer-inner">
+          {/* Giant WildCanvas Wordmark SVG */}
+          <div className="wild-giant-logo-wrap">
+            <a href="/" className="wild-giant-logo-link" aria-label="WildCanvas Home">
               <svg
                 width="100%"
-                viewBox="0 0 1294 447"
+                viewBox="0 0 1100 200"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="nudge-giant-svg"
+                className="wild-giant-svg"
                 preserveAspectRatio="xMidYMid meet"
               >
-                {/* Letter e */}
-                <path
-                  d="M1185.93 340.53C1162.63 340.53 1141.67 335.406 1123.04 325.157C1104.4 314.598 1089.65 300.157 1078.78 281.834C1068.22 263.511 1062.94 242.393 1062.94 218.48C1062.94 196.431 1067.76 176.399 1077.39 158.387C1087.32 140.064 1101.14 125.468 1118.85 114.598C1136.55 103.729 1157.04 98.2939 1180.34 98.2939C1203.94 98.2939 1224.12 103.573 1240.89 114.132C1257.98 124.381 1271.02 138.201 1280.02 155.592C1289.34 172.983 1294 192.238 1294 213.356V232.455H1106.73L1116.52 214.753C1115.58 229.66 1117.91 242.859 1123.5 254.35C1129.4 265.84 1137.63 274.847 1148.19 281.368C1158.75 287.89 1171.17 291.151 1185.46 291.151C1199.12 291.151 1211.39 288.201 1222.26 282.3C1233.13 276.399 1241.52 267.548 1247.42 255.747L1290.74 278.107C1280.49 298.294 1266.36 313.822 1248.35 324.691C1230.34 335.25 1209.53 340.53 1185.93 340.53ZM1119.31 199.381H1238.1C1237.17 189.132 1234.06 180.126 1228.78 172.362C1223.81 164.598 1217.14 158.542 1208.75 154.195C1200.37 149.847 1190.74 147.673 1179.87 147.673C1168.69 147.673 1158.75 150.002 1150.06 154.66C1141.67 159.008 1134.84 165.219 1129.56 173.294C1124.59 181.058 1121.17 189.753 1119.31 199.381Z"
+                <text
+                  x="50%"
+                  y="55%"
+                  dominantBaseline="middle"
+                  textAnchor="middle"
                   fill="currentColor"
-                />
-                {/* Letter g */}
-                <path
-                  d="M910.225 446.276C884.449 446.276 861.623 440.686 841.747 429.506C821.872 418.636 806.654 402.798 796.095 381.99L842.679 356.835C848.58 367.705 857.12 376.711 868.3 383.854C879.48 390.997 893.145 394.568 909.294 394.568C923.89 394.568 936.623 391.307 947.493 384.785C958.362 378.264 966.747 368.947 972.648 356.835C978.859 345.034 981.965 330.903 981.965 314.444V273.45L994.542 265.531C994.542 277.021 991.281 288.357 984.76 299.537C978.238 310.717 968.455 320.034 955.412 327.487C942.679 334.63 926.84 338.202 907.896 338.202C886.468 338.202 866.903 333.077 849.201 322.829C831.809 312.27 817.834 298.139 807.275 280.438C797.027 262.425 791.903 242.084 791.903 219.413C791.903 197.363 797.337 177.332 808.207 159.32C819.076 140.997 833.673 126.556 851.996 115.997C870.629 105.127 891.592 99.6924 914.884 99.6924C938.486 99.6924 959.449 104.972 977.772 115.531C996.406 125.779 1011.16 140.065 1022.03 158.388C1032.9 176.4 1038.33 196.897 1038.33 219.879V313.512C1038.33 340.22 1032.74 363.512 1021.56 383.388C1010.38 403.264 995.163 418.636 975.909 429.506C956.654 440.686 934.76 446.276 910.225 446.276ZM913.952 285.096C926.685 285.096 938.02 282.146 947.958 276.245C958.207 270.344 966.281 262.425 972.182 252.487C978.393 242.239 981.499 230.903 981.499 218.481C981.499 205.748 978.393 194.568 972.182 184.941C966.281 175.003 958.207 167.084 947.958 161.183C938.02 155.282 926.685 152.332 913.952 152.332C901.84 152.332 890.66 155.282 880.412 161.183C870.163 167.084 862.089 175.003 856.188 184.941C850.288 194.568 847.337 205.748 847.337 218.481C847.337 230.903 850.288 242.239 856.188 252.487C862.089 262.425 870.163 270.344 880.412 276.245C890.66 282.146 901.84 285.096 913.952 285.096Z"
-                  fill="currentColor"
-                />
-                {/* Letter d */}
-                <path
-                  d="M643.843 340.994C620.551 340.994 599.588 335.559 580.955 324.689C562.632 313.509 548.036 298.913 537.166 280.9C526.297 262.577 520.862 242.546 520.862 220.807C520.862 197.205 525.986 176.242 536.234 157.919C546.483 139.596 560.613 125.31 578.626 115.062C596.949 104.814 617.756 99.6894 641.048 99.6894C658.439 99.6894 674.588 103.727 689.495 111.801C704.402 119.565 716.359 130.124 725.365 143.478C734.371 156.832 738.874 171.273 738.874 186.801L710.924 177.95V0H767.29V220.807C767.29 243.478 761.855 263.975 750.986 282.298C740.116 300.31 725.365 314.596 706.731 325.155C688.408 335.714 667.446 340.994 643.843 340.994ZM643.843 287.888C656.887 287.888 668.377 284.938 678.315 279.037C688.564 272.826 696.483 264.596 702.073 254.348C707.973 244.099 710.924 232.764 710.924 220.341C710.924 207.919 707.973 196.584 702.073 186.335C696.483 176.087 688.564 167.857 678.315 161.646C668.377 155.435 656.887 152.329 643.843 152.329C631.11 152.329 619.62 155.435 609.371 161.646C599.433 167.857 591.514 176.087 585.613 186.335C579.713 196.584 576.762 207.919 576.762 220.341C576.762 232.764 579.713 244.099 585.613 254.348C591.514 264.596 599.433 272.826 609.371 279.037C619.62 284.938 631.11 287.888 643.843 287.888Z"
-                  fill="currentColor"
-                />
-                {/* Letter u */}
-                <path
-                  d="M383.752 286.494C396.485 286.494 407.2 283.233 415.895 276.712C424.591 269.879 431.113 261.028 435.46 250.159C439.808 238.979 441.982 226.867 441.982 213.823V105.749H497.883V220.811C497.883 242.861 493.535 263.047 484.839 281.37C476.144 299.693 463.255 314.134 446.175 324.693C429.404 335.252 408.597 340.531 383.752 340.531C359.218 340.531 338.411 335.252 321.33 324.693C304.249 313.823 291.361 299.382 282.665 281.37C273.97 263.047 269.622 242.705 269.622 220.345V105.749H325.988V214.289C325.988 227.022 328.007 238.979 332.044 250.159C336.392 261.028 342.914 269.879 351.61 276.712C360.305 283.233 371.019 286.494 383.752 286.494Z"
-                  fill="currentColor"
-                />
-                {/* Letter n */}
-                <path
-                  d="M116.925 153.73C103.261 153.73 91.9255 157.146 82.9193 163.978C73.913 170.5 67.236 179.195 62.8882 190.065C58.5404 200.935 56.3665 212.891 56.3665 225.935V334.941H6.10352e-05V219.879C6.10352e-05 197.518 4.34788 177.332 13.0435 159.32C22.0497 140.997 35.0932 126.556 52.1739 115.997C69.5652 105.127 91.1491 99.6924 116.925 99.6924C143.012 99.6924 164.751 105.127 182.143 115.997C199.534 126.556 212.578 140.997 221.273 159.32C230.279 177.332 234.783 197.363 234.783 219.413V334.941H178.882V226.4C178.882 213.357 176.553 201.4 171.894 190.531C167.547 179.351 160.714 170.5 151.397 163.978C142.391 157.146 130.901 153.73 116.925 153.73Z"
-                  fill="currentColor"
-                />
+                  fontFamily="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif"
+                  fontWeight="800"
+                  letterSpacing="-0.045em"
+                  fontSize="175"
+                >
+                  WildCanvas
+                </text>
               </svg>
             </a>
           </div>
 
           {/* Bottom Bar: Copyright & Links */}
-          <div className="nudge-footer-meta">
-            <p className="nudge-footer-company">{companyName}</p>
-            <div className="nudge-footer-links">
-              <a href="/legal/privacy" className="nudge-footer-link">Privacy</a>
-              <a href="/legal/terms" className="nudge-footer-link">Terms</a>
-              <a href="/support" className="nudge-footer-link">Support</a>
+          <div className="wild-footer-meta">
+            <p className="wild-footer-company">© {new Date().getFullYear()} {companyName}. All rights reserved.</p>
+            <div className="wild-footer-links">
+              <a href="#privacy" className="wild-footer-link">Privacy</a>
+              <a href="#terms" className="wild-footer-link">Terms</a>
+              <a href="#support" className="wild-footer-link">Support</a>
             </div>
           </div>
         </div>
