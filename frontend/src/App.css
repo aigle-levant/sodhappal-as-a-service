@@ -42,6 +42,8 @@
 .dashboard-col-right {
   width: 100%;
   display: flex;
+  flex-direction: column;
+  gap: 28px;
   justify-content: flex-start;
   padding-top: 32px; /* Aligns with SolarCard under city pills */
 }

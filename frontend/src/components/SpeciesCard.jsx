@@ -42,10 +42,17 @@ export default function SpeciesCard({
   location = { name: 'Chennai, India', lat: 13.0827, lng: 80.2707 },
   weather = { temp: 34, condition: 'Clear Sky' },
   solarInfo = { sunrise: '5:56 AM', sunset: '6:03 PM', isNight: false, sunProgressPercent: 73 },
+  onSpeciesLoaded,
 }) {
   const [speciesList, setSpeciesList] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+
+  useEffect(() => {
+    if (speciesList.length > 0 && onSpeciesLoaded) {
+      onSpeciesLoaded(speciesList)
+    }
+  }, [speciesList, onSpeciesLoaded])
 
   useEffect(() => {
     let isCancelled = false
