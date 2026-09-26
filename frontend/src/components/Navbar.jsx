@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import './Navbar.css'
 
 export default function Navbar({
-  brandName = 'nudge',
+  brandName = 'WildCanvas',
   items = [
     {
       id: 'platform',
@@ -73,13 +73,20 @@ export default function Navbar({
         {/* Left: Brand Logo */}
         <a href="#home" className="nudge-brand" aria-label={brandName}>
           <div className="nudge-logo-mark" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-              {/* Sleek geometric arch / nudge motif */}
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              {/* Botanical Leaf + Sun Burst motif */}
               <circle cx="12" cy="12" r="10" fill="currentColor" />
               <path
-                d="M8 12.5C8 10.0147 10.0147 8 12.5 8C14.9853 8 17 10.0147 17 12.5V16H13.5V12.5C13.5 11.9477 13.0523 11.5 12.5 11.5C11.9477 11.5 11.5 11.9477 11.5 12.5V16H8V12.5Z"
-                fill="#ece7de"
+                d="M12 6.5C8.8 6.5 6.5 9 6.5 12.2C6.5 15.5 9 17.5 12.2 17.5C15.5 17.5 17.5 15.5 17.5 12.2C17.5 7.2 12.5 6.5 12 6.5Z"
+                fill="#ECE7DE"
               />
+              <path
+                d="M8.5 15.5L15.5 8.5"
+                stroke="#191B17"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
+              <circle cx="14.5" cy="9.5" r="1.2" fill="#D99A3D" />
             </svg>
           </div>
           <span className="nudge-brand-text">{brandName}</span>

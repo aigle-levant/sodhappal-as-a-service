@@ -1,0 +1,433 @@
+/* ===================================================================
+   SolarCard — Subtle, Cohesive Animated Sunrise/Sunset Card
+   Location on top left, Weather on top right, Sunrise & Sunset times
+   Palette: Deep Forest (#16352F), Soft Sage, Warm Ivory & Muted Amber
+   =================================================================== */
+
+.solar-card-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 32px 0 32px 0;
+  margin-right: auto;
+  padding: 8px 16px 16px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .solar-card-container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* ─── Location Pill Switchers ─────────────────────────────────────── */
+.solar-location-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding-left: 2px;
+}
+
+.solar-pill-btn {
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background-color: #ECE7DE;
+  border: 1px solid rgba(40, 89, 67, 0.1);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #38423B;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.solar-pill-btn:hover {
+  background-color: #DFD9CE;
+  color: #16352F;
+  transform: translateY(-1px);
+}
+
+.solar-pill-btn--active {
+  background-color: #16352F;
+  color: #FBF9F3;
+  border-color: #16352F;
+  box-shadow: 0 4px 12px rgba(22, 53, 47, 0.16);
+}
+
+.solar-pill-btn--geo {
+  background-color: rgba(217, 154, 61, 0.1);
+  border-color: rgba(217, 154, 61, 0.22);
+  color: #8C5F22;
+  font-weight: 600;
+}
+
+.solar-pill-btn--geo:hover {
+  background-color: rgba(217, 154, 61, 0.18);
+  color: #704914;
+}
+
+/* ─── Main Animated Card ─────────────────────────────────────────── */
+.solar-card {
+  position: relative;
+  border-radius: 26px;
+  padding: 30px 28px;
+  color: #FBF9F3;
+  box-shadow:
+    0 16px 36px -8px rgba(18, 38, 30, 0.18),
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  transition: background 0.5s ease, transform 0.25s ease;
+  box-sizing: border-box;
+}
+
+.solar-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Daytime Theme: Cohesive, deep forest teal & soft sage */
+.solar-card--day {
+  background: linear-gradient(150deg, #18332C 0%, #132822 55%, #192F28 100%);
+  border: 1px solid rgba(168, 184, 160, 0.18);
+}
+
+/* Night / Twilight Theme: Calmer deep slate forest */
+.solar-card--night {
+  background: linear-gradient(150deg, #0F1F1B 0%, #0A1714 60%, #111D19 100%);
+  border: 1px solid rgba(168, 184, 160, 0.12);
+}
+
+/* Very subtle warm horizon ambient glow */
+.solar-atmosphere-glow {
+  position: absolute;
+  top: -30%;
+  right: -15%;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(217, 154, 61, 0.12) 0%, rgba(217, 154, 61, 0.03) 50%, transparent 75%);
+  filter: blur(36px);
+  pointer-events: none;
+  animation: atmosphericBreathe 9s ease-in-out infinite alternate;
+}
+
+@keyframes atmosphericBreathe {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.1);
+    opacity: 0.85;
+  }
+}
+
+/* ─── Top Header: Location (Left) & Weather (Right) ────────────────── */
+.solar-card-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Location (Top Left) */
+.solar-header-location {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.solar-location-pin {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #DFB978;
+  flex-shrink: 0;
+}
+
+.solar-location-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.solar-location-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #FBF9F3;
+  line-height: 1.25;
+}
+
+.solar-location-coords {
+  font-size: 0.74rem;
+  color: rgba(245, 241, 232, 0.58);
+  letter-spacing: 0.02em;
+}
+
+/* Weather (Top Right) */
+.solar-header-weather {
+  display: flex;
+  align-items: center;
+}
+
+.solar-weather-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 13px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.solar-weather-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.solar-weather-info {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.solar-weather-temp {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #FBF9F3;
+  line-height: 1.1;
+}
+
+.solar-weather-label {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: rgba(245, 241, 232, 0.65);
+  white-space: nowrap;
+}
+
+.solar-weather-skeleton {
+  font-size: 0.76rem;
+  color: rgba(245, 241, 232, 0.55);
+}
+
+/* ─── Center: Solar Arc Trajectory ───────────────────────────────── */
+.solar-arc-wrapper {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 0 2px;
+}
+
+.solar-arc-svg {
+  width: 100%;
+  max-width: 290px;
+  height: auto;
+  overflow: visible;
+}
+
+/* Pulsing Sun Halo */
+.solar-pulse-halo {
+  animation: sunHaloPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes sunHaloPulse {
+  0%, 100% {
+    r: 11;
+    opacity: 0.3;
+  }
+  50% {
+    r: 18;
+    opacity: 0.65;
+  }
+}
+
+.solar-phase-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 4px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(223, 185, 120, 0.18);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #DFC08A;
+}
+
+.solar-phase-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #D99A3D;
+  box-shadow: 0 0 6px rgba(217, 154, 61, 0.7);
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+/* ─── Sunrise & Sunset Times Grid ────────────────────────────────── */
+.solar-times-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.solar-time-block {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.solar-time-block:hover {
+  background: rgba(255, 255, 255, 0.09);
+  transform: translateY(-1px);
+}
+
+.solar-time-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.solar-time-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.solar-time-title {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgba(245, 241, 232, 0.6);
+  letter-spacing: 0.02em;
+}
+
+.solar-time-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #FBF9F3;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.solar-time-sub {
+  font-size: 0.68rem;
+  color: rgba(245, 241, 232, 0.48);
+  margin-top: 1px;
+}
+
+/* ─── Footer Stats ───────────────────────────────────────────────── */
+.solar-card-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  font-size: 0.74rem;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.solar-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.solar-stat-label {
+  font-size: 0.66rem;
+  color: rgba(245, 241, 232, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.solar-stat-value {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #FBF9F3;
+}
+
+.solar-stat-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.solar-api-credit {
+  color: rgba(245, 241, 232, 0.6);
+  text-decoration: none;
+  font-size: 0.72rem;
+  transition: color 0.18s ease;
+}
+
+.solar-api-credit:hover {
+  color: #DFB978;
+  text-decoration: underline;
+}
+
+/* ─── Responsive Adjustments ─────────────────────────────────────── */
+@media (max-width: 540px) {
+  .solar-card {
+    padding: 22px 18px;
+    gap: 16px;
+    border-radius: 20px;
+  }
+
+  .solar-times-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .solar-time-block {
+    padding: 12px 14px;
+  }
+
+  .solar-stat-divider {
+    display: none;
+  }
+
+  .solar-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

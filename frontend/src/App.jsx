@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { api1, api2, api3, api4 } from './services/api'
 import { useApi } from './hooks/useApi'
 import Navbar from './components/Navbar'
+import SolarCard from './components/SolarCard'
 import Footer from './components/Footer'
 import './App.css'
 
@@ -87,6 +88,11 @@ export default function App() {
               Backend health ↗
             </a>
           </div>
+        </section>
+
+        {/* Live Animated Solar & Weather Card (sunrise-sunset.org API) */}
+        <section style={{ display: 'flex', justifyContent: 'flex-start', textAlign: 'left', marginBottom: 64 }}>
+          <SolarCard />
         </section>
 
         {/* API Grid */}
