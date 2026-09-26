@@ -64,7 +64,7 @@ export default function App() {
             </p>
           </div>
 
-          {/* Main Flow: Wide Weather Card -> Species Card Below -> Artwork Card Below */}
+          {/* Main Flow: Wide Weather Card on top -> Species Card & Art Card side by side below */}
           <section className="dashboard-content-flow">
             {/* 1. Wide Weather & Solar Card (wider than longer) */}
             <SolarCard
@@ -73,21 +73,22 @@ export default function App() {
               onDataSync={setSolarAndWeather}
             />
 
-            {/* 2. Top 3 Species Card directly below Weather Card */}
-            <SpeciesCard
-              location={currentLocation}
-              weather={solarAndWeather.weather}
-              solarInfo={solarAndWeather.solarInfo}
-              onSpeciesLoaded={setTopSpecies}
-            />
+            {/* 2. Side-by-Side Row: Species Card (Left) + Artwork Card (Right) */}
+            <div className="cards-side-by-side">
+              <SpeciesCard
+                location={currentLocation}
+                weather={solarAndWeather.weather}
+                solarInfo={solarAndWeather.solarInfo}
+                onSpeciesLoaded={setTopSpecies}
+              />
 
-            {/* 3. Art Institute of Chicago Component below Species Card */}
-            <ArtworkCard
-              species={topSpecies}
-              location={currentLocation}
-              solarInfo={solarAndWeather.solarInfo}
-              weather={solarAndWeather.weather}
-            />
+              <ArtworkCard
+                species={topSpecies}
+                location={currentLocation}
+                solarInfo={solarAndWeather.solarInfo}
+                weather={solarAndWeather.weather}
+              />
+            </div>
           </section>
         </div>
       </main>
